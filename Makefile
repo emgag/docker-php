@@ -32,6 +32,20 @@ build: 7.0 7.1 7.2
 	-t ${IMAGE}:${IMAGE_70_VERSION}-cron \
 	cron
 	docker push ${IMAGE}:${IMAGE_70_VERSION}-cron
+	# build (cli)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_70_VERSION} \
+	--build-arg FLAVOUR=cli \
+	-t ${IMAGE}:${IMAGE_70_VERSION}-cli-build \
+	build
+	docker push ${IMAGE}:${IMAGE_70_VERSION}-cli-build
+	# build (fpm)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_70_VERSION} \
+	--build-arg FLAVOUR=fpm \
+	-t ${IMAGE}:${IMAGE_70_VERSION}-fpm-build \
+	build
+	docker push ${IMAGE}:${IMAGE_70_VERSION}-fpm-build
 
 7.1:
 	# cli
@@ -54,6 +68,20 @@ build: 7.0 7.1 7.2
 	-t ${IMAGE}:${IMAGE_71_VERSION}-cron \
 	cron
 	docker push ${IMAGE}:${IMAGE_71_VERSION}-cron
+	# build (cli)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_71_VERSION} \
+	--build-arg FLAVOUR=cli \
+	-t ${IMAGE}:${IMAGE_71_VERSION}-cli-build \
+	build
+	docker push ${IMAGE}:${IMAGE_71_VERSION}-cli-build
+	# build (fpm)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_71_VERSION} \
+	--build-arg FLAVOUR=fpm \
+	-t ${IMAGE}:${IMAGE_71_VERSION}-fpm-build \
+	build
+	docker push ${IMAGE}:${IMAGE_71_VERSION}-fpm-build
 
 7.2:
 	# cli
@@ -76,3 +104,17 @@ build: 7.0 7.1 7.2
 	-t ${IMAGE}:${IMAGE_72_VERSION}-cron \
 	cron
 	docker push ${IMAGE}:${IMAGE_72_VERSION}-cron
+	# build (cli)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_72_VERSION} \
+	--build-arg FLAVOUR=cli \
+	-t ${IMAGE}:${IMAGE_72_VERSION}-cli-build \
+	build
+	docker push ${IMAGE}:${IMAGE_72_VERSION}-cli-build
+	# build (fpm)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_72_VERSION} \
+	--build-arg FLAVOUR=fpm \
+	-t ${IMAGE}:${IMAGE_72_VERSION}-fpm-build \
+	build
+	docker push ${IMAGE}:${IMAGE_72_VERSION}-fpm-build

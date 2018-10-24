@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
         locales \
         git \
         gnupg \
+        iproute2 \
         sudo \
         unzip \
     && apt-get clean \
