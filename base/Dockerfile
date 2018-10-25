@@ -33,6 +33,7 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
     && docker-php-ext-install iconv \
     && docker-php-ext-install intl \
     && docker-php-ext-install mbstring \
+    && docker-php-ext-install mysqli \
     && docker-php-ext-install opcache \
     && docker-php-ext-install pcntl \
     && docker-php-ext-install pdo_mysql \
