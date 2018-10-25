@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
         libxslt1-dev \
         libicu-dev \
         locales \
+        gettext-base \
         git \
         gnupg \
         iproute2 \
