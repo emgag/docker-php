@@ -1,5 +1,4 @@
 .PHONY: build 7.0 7.1 7.2
-.ONESHELL:
 
 IMAGE := emgag/php
 IMAGE_70_VERSION := 7.0.32-r2
