@@ -3,8 +3,10 @@ ARG FLAVOUR
 FROM php:${VERSION}-${FLAVOUR}-stretch
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
-# dependencies and tools
-RUN apt-get update && apt-get install -y \
+# image upgrade, install dependencies and tools
+RUN apt-get update \
+    && apt-get -y upgrade \
+    && apt-get install -y \
         curl \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
