@@ -13,6 +13,7 @@ RUN apt-get update \
         libpng-dev \
         libxslt1-dev \
         libicu-dev \
+        libzip-dev \
         locales \
         gettext-base \
         git \
