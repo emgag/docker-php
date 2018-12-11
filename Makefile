@@ -1,14 +1,16 @@
-.PHONY: build 7.0 7.1 7.2
+.PHONY: build 7.0 7.1 7.2 7.3
 
 IMAGE := emgag/php
-IMAGE_70_VERSION := 7.0.32-r2
-IMAGE_70_UPSTREAM := 7.0.32
-IMAGE_71_VERSION := 7.1.23-r2
-IMAGE_71_UPSTREAM := 7.1.23
-IMAGE_72_VERSION := 7.2.12
-IMAGE_72_UPSTREAM := 7.2.12
+IMAGE_70_VERSION := 7.0.33
+IMAGE_70_UPSTREAM := 7.0.33
+IMAGE_71_VERSION := 7.1.25
+IMAGE_71_UPSTREAM := 7.1.25
+IMAGE_72_VERSION := 7.2.13
+IMAGE_72_UPSTREAM := 7.2.13
+IMAGE_73_VERSION := 7.3.0
+IMAGE_73_UPSTREAM := 7.3.0
 
-build: 7.0 7.1 7.2
+build: 7.0 7.1 7.2 7.3
 
 7.0:
 	# cli
@@ -117,3 +119,39 @@ build: 7.0 7.1 7.2
 	-t ${IMAGE}:${IMAGE_72_VERSION}-fpm-build \
 	build
 	docker push ${IMAGE}:${IMAGE_72_VERSION}-fpm-build
+
+7.3:
+	# cli
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_73_UPSTREAM} \
+	--build-arg FLAVOUR=cli \
+	-t ${IMAGE}:${IMAGE_73_VERSION}-cli \
+	base
+	docker push ${IMAGE}:${IMAGE_73_VERSION}-cli
+	# fpm
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_73_UPSTREAM} \
+	--build-arg FLAVOUR=fpm \
+	-t ${IMAGE}:${IMAGE_73_VERSION}-fpm \
+	base
+	docker push ${IMAGE}:${IMAGE_73_VERSION}-fpm
+	# cron
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_73_VERSION} \
+	-t ${IMAGE}:${IMAGE_73_VERSION}-cron \
+	cron
+	docker push ${IMAGE}:${IMAGE_73_VERSION}-cron
+	# build (cli)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_73_VERSION} \
+	--build-arg FLAVOUR=cli \
+	-t ${IMAGE}:${IMAGE_73_VERSION}-cli-build \
+	build
+	docker push ${IMAGE}:${IMAGE_73_VERSION}-cli-build
+	# build (fpm)
+	docker build --pull \
+	--build-arg VERSION=${IMAGE_73_VERSION} \
+	--build-arg FLAVOUR=fpm \
+	-t ${IMAGE}:${IMAGE_73_VERSION}-fpm-build \
+	build
+	docker push ${IMAGE}:${IMAGE_73_VERSION}-fpm-build
