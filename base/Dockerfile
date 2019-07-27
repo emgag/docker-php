@@ -1,6 +1,6 @@
 ARG VERSION
 ARG FLAVOUR
-FROM php:${VERSION}-${FLAVOUR}-stretch
+FROM php:${VERSION}-${FLAVOUR}-buster
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # image upgrade, install dependencies and tools

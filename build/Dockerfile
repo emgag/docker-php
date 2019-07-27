@@ -4,7 +4,7 @@ FROM emgag/php:${VERSION}-${FLAVOUR}
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # nodejs setup
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs \
     && apt-get clean \
     && apt-get autoremove -y \
