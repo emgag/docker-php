@@ -8,17 +8,18 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get install -y \
         curl \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libxslt1-dev \
-        libicu-dev \
-        libzip-dev \
-        locales \
         gettext-base \
         git \
         gnupg \
         iproute2 \
+        libfreetype6-dev \
+        libicu-dev \
+        libjpeg62-turbo-dev \
+        libonig-dev \
+        libpng-dev \
+        libxslt1-dev \
+        libzip-dev \
+        locales \
         sudo \
         unzip \
     && apt-get clean \
