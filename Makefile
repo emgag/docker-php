@@ -7,10 +7,10 @@ IMAGE_72_VERSION := 7.2.21-buster
 IMAGE_72_UPSTREAM := 7.2.21
 IMAGE_73_VERSION := 7.3.8-buster
 IMAGE_73_UPSTREAM := 7.3.8
-IMAGE_74_VERSION := 7.4.0beta1-buster
-IMAGE_74_UPSTREAM := 7.4.0beta1
+IMAGE_74_VERSION := 7.4.0beta2-buster
+IMAGE_74_UPSTREAM := 7.4.0beta2
 
-build: 7.1 7.2 7.3
+build: 7.1 7.2 7.3 7.4
 
 7.1:
 	# cli
