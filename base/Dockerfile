@@ -1,6 +1,6 @@
 ARG VERSION
 ARG FLAVOUR
-FROM php:${VERSION}-${FLAVOUR}-stretch
+FROM php:${VERSION}-${FLAVOUR}-buster
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # image upgrade, install dependencies and tools
@@ -8,17 +8,18 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get install -y \
         curl \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libxslt1-dev \
-        libicu-dev \
-        libzip-dev \
-        locales \
         gettext-base \
         git \
         gnupg \
         iproute2 \
+        libfreetype6-dev \
+        libicu-dev \
+        libjpeg62-turbo-dev \
+        libonig-dev \
+        libpng-dev \
+        libxslt1-dev \
+        libzip-dev \
+        locales \
         sudo \
         unzip \
     && apt-get clean \
