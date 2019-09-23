@@ -25,3 +25,6 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
+
+# php config
+COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini

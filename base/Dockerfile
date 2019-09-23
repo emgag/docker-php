@@ -53,7 +53,8 @@ RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-di
 RUN curl https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # php config
-COPY php.ini /usr/local/etc/php/php.ini
+COPY php/php.ini /usr/local/etc/php/php.ini
+COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini
 
 # add some aliases
 COPY aliases.sh /etc/profile.d/aliases.sh
