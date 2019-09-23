@@ -20,6 +20,7 @@ RUN apt-get update \
         libxslt1-dev \
         libzip-dev \
         locales \
+        rsync \
         sudo \
         unzip \
     && apt-get clean \
