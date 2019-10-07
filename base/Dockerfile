@@ -58,3 +58,6 @@ COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini
 
 # add some aliases
 COPY aliases.sh /etc/profile.d/aliases.sh
+
+# load bash profile for www user
+COPY bashrc /var/www/.bashrc
