@@ -6,6 +6,8 @@ LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 # additional development tools
 RUN apt-get update && apt-get install -y \
         default-mysql-client \
+        redis-server \
+        vim \
     && apt-get clean \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
@@ -28,3 +30,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
 
 # php config
 COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini
+
+# vim config
+COPY vimrc /var/www/.vimrc
+COPY vimrc /root/.vimrc

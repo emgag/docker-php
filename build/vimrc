@@ -1,0 +1,9 @@
+set nocompatible
+set background=dark
+set ruler
+set autoindent
+set noexpandtab
+set mouse=
+
+filetype plugin indent on
+syntax on
