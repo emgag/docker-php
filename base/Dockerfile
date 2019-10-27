@@ -55,6 +55,7 @@ RUN curl https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 # php config
 COPY php/php.ini /usr/local/etc/php/php.ini
 COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini
+COPY php/session.ini /usr/local/etc/php/conf.d/zz-01-session.ini
 
 # bash config
 COPY aliases.sh /etc/profile.d/aliases.sh
