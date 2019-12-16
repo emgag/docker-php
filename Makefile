@@ -5,10 +5,8 @@ IMAGE_72_VERSION := 7.2.25-1
 IMAGE_72_UPSTREAM := 7.2.25
 IMAGE_73_VERSION := 7.3.12-1
 IMAGE_73_UPSTREAM := 7.3.12
-IMAGE_74_VERSION := 7.4.0-1
-IMAGE_74_UPSTREAM := 7.4.0
 
-build: 7.2 7.3 7.4
+build: 7.2 7.3 
 
 7.2:
 	# cli
@@ -82,38 +80,3 @@ build: 7.2 7.3 7.4
 	build
 	docker push ${IMAGE}:${IMAGE_73_VERSION}-fpm-build
 
-7.4:
-	# cli
-	docker build --no-cache --pull \
-	--build-arg VERSION=${IMAGE_74_UPSTREAM} \
-	--build-arg FLAVOUR=cli \
-	-t ${IMAGE}:${IMAGE_74_VERSION}-cli \
-	base
-	docker push ${IMAGE}:${IMAGE_74_VERSION}-cli
-	# fpm
-	docker build --no-cache --pull \
-	--build-arg VERSION=${IMAGE_74_UPSTREAM} \
-	--build-arg FLAVOUR=fpm \
-	-t ${IMAGE}:${IMAGE_74_VERSION}-fpm \
-	base
-	docker push ${IMAGE}:${IMAGE_74_VERSION}-fpm
-	# cron
-	docker build --no-cache --pull \
-	--build-arg VERSION=${IMAGE_74_VERSION} \
-	-t ${IMAGE}:${IMAGE_74_VERSION}-cron \
-	cron
-	docker push ${IMAGE}:${IMAGE_74_VERSION}-cron
-	# build (cli)
-	docker build --no-cache --pull \
-	--build-arg VERSION=${IMAGE_74_VERSION} \
-	--build-arg FLAVOUR=cli \
-	-t ${IMAGE}:${IMAGE_74_VERSION}-cli-build \
-	build
-	docker push ${IMAGE}:${IMAGE_74_VERSION}-cli-build
-	# build (fpm)
-	docker build --no-cache --pull \
-	--build-arg VERSION=${IMAGE_74_VERSION} \
-	--build-arg FLAVOUR=fpm \
-	-t ${IMAGE}:${IMAGE_74_VERSION}-fpm-build \
-	build
-	docker push ${IMAGE}:${IMAGE_74_VERSION}-fpm-build
