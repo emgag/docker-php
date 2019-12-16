@@ -33,7 +33,7 @@ COPY locale.gen /etc/locale.gen
 RUN locale-gen
 
 # php extensions
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd \
     && docker-php-ext-install calendar \
     && docker-php-ext-install exif \
