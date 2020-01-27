@@ -22,6 +22,7 @@ RUN apt-get update \
         locales \
         rsync \
         sudo \
+        tmux \
         unzip \
     && apt-get clean \
     && apt-get autoremove -y \
@@ -68,3 +69,6 @@ COPY bashrc /root/.bashrc
 # readline config
 COPY inputrc /var/www/.inputrc
 COPY inputrc /root/.inputrc
+
+# tmux config
+COPY tmux.conf /etc/tmux.conf
