@@ -16,18 +16,17 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.output.matrix }}
     steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Set up Go
-#        uses: actions/setup-go@v1
-#        with:
-#          go-version: 1.15.x
-#      - name: Generate build matrix
-#        id: matrix
-#        run: go run bin/build-matrix.go
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15.x
       - name: Generate build matrix
         id: matrix
-        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
+        run: go run bin/build-matrix.go
+      - name: debug
+        run: echo ${{ steps.matrix.outputs.matrix }}
 
   debug:
     runs-on: ubuntu-latest
