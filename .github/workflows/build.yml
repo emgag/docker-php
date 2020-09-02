@@ -2,42 +2,60 @@ name: build
 
 on:
   push:
-    paths:
-    - .github/workflows/build.yml
-    - bin/build-matrix.go
-
-env:
-  IMAGE: ghcr.io/emgag/php
-  REPO_OWNER: emgag-service
+#    paths:
+#    - .github/workflows/build.yml
+#    - bin/build-matrix.go
 
 jobs:
-  gen:
+  job1:
     runs-on: ubuntu-latest
+    # Map a step output to a job output
     outputs:
-#      matrix: ${{ steps.genmatrix.output.matrix }}
-      blubber: ${{ steps.genmatrix.output.blubber }}
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Go
-        uses: actions/setup-go@v1
-        with:
-          go-version: 1.15.x
-      - name: Generate build matrix
-        id: genmatrix
-#        run: go run bin/build-matrix.go
-        run: echo "::set-output name=blubber::jajaja"
-      - name: debug
-        run: echo "${{ steps.genmatrix.outputs.blubber }}"
-
-  debug:
+    - id: step1
+      run: echo "::set-output name=test::hello"
+    - id: step2
+      run: echo "::set-output name=test::world"
+  job2:
     runs-on: ubuntu-latest
-    needs: [gen]
+    needs: job1
     steps:
-      - name: dump output
-        env:
-          OUTPUT: "${{ needs.gen.outputs.blubber }}"
-        run: echo "$OUTPUT"
+    - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+
+#env:
+#  IMAGE: ghcr.io/emgag/php
+#  REPO_OWNER: emgag-service
+
+#jobs:
+#  gen:
+#    runs-on: ubuntu-latest
+#    outputs:
+#      matrix: ${{ steps.genmatrix.output.matrix }}
+#      blubber: ${{ steps.genmatrix.output.blubber }}
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Set up Go
+#        uses: actions/setup-go@v1
+#        with:
+#          go-version: 1.15.x
+#      - name: Generate build matrix
+#        id: genmatrix
+#        run: go run bin/build-matrix.go
+#        run: echo "::set-output name=blubber::jajaja"
+#      - name: debug
+#        run: echo "${{ steps.genmatrix.outputs.blubber }}"
+
+#  debug:
+#    runs-on: ubuntu-latest
+#    needs: [gen]
+#    steps:
+#      - name: dump output
+#        env:
+#          OUTPUT: "${{ needs.gen.outputs.blubber }}"
+#        run: echo "$OUTPUT"
 
 #  base:
 #    strategy:
