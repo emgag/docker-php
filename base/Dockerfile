@@ -40,7 +40,7 @@ RUN if [ "${VERSION_MAJOR}.${VERSION_MINOR}" = "7.4" ]; then \
     docker-php-ext-configure gd --with-freetype --with-jpeg; \
     else \
     docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
-    fi && \
+    fi \
     && docker-php-ext-install gd \
     && docker-php-ext-install calendar \
     && docker-php-ext-install exif \
