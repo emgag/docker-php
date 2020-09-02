@@ -15,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.genmatrix.output.matrix }}
+      blubber: "miau"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,7 +35,7 @@ jobs:
     steps:
       - name: dump output
         env:
-          OUTPUT: "${{ needs.gen.outputs.matrix }}"
+          OUTPUT: "${{ needs.gen.outputs.blubber }}"
         run: echo "$OUTPUT"
 
 #  base:
