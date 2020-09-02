@@ -63,6 +63,6 @@ func main() {
 		}
 	}
 
-	fmt.Print("::set-ouput matrix=")
+	fmt.Print("::set-ouput name=matrix::")
 	json.NewEncoder(os.Stdout).Encode(matrix)
 }
