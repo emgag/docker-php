@@ -14,8 +14,8 @@ jobs:
   gen:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.genmatrix.output.matrix }}
-      blubber: "miau"
+#      matrix: ${{ steps.genmatrix.output.matrix }}
+      blubber: ${{ steps.genmatrix.output.blubber }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,9 +25,10 @@ jobs:
           go-version: 1.15.x
       - name: Generate build matrix
         id: genmatrix
-        run: go run bin/build-matrix.go
+#        run: go run bin/build-matrix.go
+        run: echo "::set-output name=blubber::jajaja"
       - name: debug
-        run: echo "${{ steps.genmatrix.outputs.matrix }}"
+        run: echo "${{ steps.genmatrix.outputs.blubber }}"
 
   debug:
     runs-on: ubuntu-latest
