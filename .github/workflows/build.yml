@@ -1,0 +1,94 @@
+name: build
+
+on:
+  push:
+    paths:
+    - .github/workflows/build.yml
+
+env:
+  IMAGE: ghcr.io/emgag/php
+  REPO_OWNER: emgag-service
+  PHP_72_UPSTREAM: "7.2.33"
+  PHP_72_REV: ""
+  PHP_73_UPSTREAM: "7.3.21"
+  PHP_73_REV: ""
+  PHP_74_UPSTREAM: "7.4.9"
+  PHP_74_REV: ""
+
+jobs:
+  base:
+    strategy:
+      matrix:
+        php:
+          - upstream: ${{ env.PHP_72_UPSTREAM }}
+            rev: ${{ env.PHP_72_REV }}
+          - upstream: ${{ env.PHP_73_UPSTREAM }}
+            rev: ${{ env.PHP_73_REV }}
+          - upstream: ${{ env.PHP_74_UPSTREAM }}
+            rev: ${{ env.PHP_74_REV }}
+        flavour:
+          - cli
+          - fpm
+        source:
+          - dir: base
+            suffix: ""
+          - dir: build
+            suffix: "-build"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.REPO_OWNER }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build ${{ matrix.source }} image (${{ matrix.php.upstream}}{{ matrix.php.rev }}-${{ matrix.flavour }}${{ matrix.source.suffix }})
+        run: >
+          docker build --no-cache --pull \
+          --build-arg VERSION=${{ matrix.php.upstream }} \
+          --build-arg FLAVOUR=${{ matrix.flavour }} \
+          -t ${{ env.IMAGE }}:${{ matrix.php.upstream }}${{ matrix.php.rev }}-${{ matrix.flavour }}${{ matrix.source.suffix }} \
+          ${{ matrix.source.dir }}
+
+      - name: Push ${{ matrix.source }} image (${{ matrix.php.upstream}}{{ matrix.php.rev }}-${{ matrix.flavour }}${{ matrix.source.suffix }})
+        run: docker push ${{ env.IMAGE }}:${{ matrix.php.upstream }}${{ matrix.php.rev }}-${{ matrix.flavour }}${{ matrix.source.suffix }}
+
+  cron:
+    strategy:
+      matrix:
+        php:
+          - upstream: ${{ env.PHP_72_UPSTREAM }}
+            rev: ${{ env.PHP_72_REV }}
+          - upstream: ${{ env.PHP_73_UPSTREAM }}
+            rev: ${{ env.PHP_73_REV }}
+          - upstream: ${{ env.PHP_74_UPSTREAM }}
+            rev: ${{ env.PHP_74_REV }}
+
+    runs-on: ubuntu-latest
+    needs: [base]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.REPO_OWNER }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build cron image (${{ matrix.php.upstream}}{{ matrix.php.rev }}-cron)
+        run: >
+          docker build --no-cache --pull \
+          --build-arg VERSION=${{ matrix.php.upstream }} \
+          --build-arg FLAVOUR=cli \
+          -t ${{ env.IMAGE }}:${{ matrix.php.upstream }}${{ matrix.php.rev }}-cron \
+          base
+
+      - name: Push cron image (${{ matrix.php.upstream}}{{ matrix.php.rev }}-cron)
+        run: docker push ${{ env.IMAGE }}:${{ matrix.php.upstream }}${{ matrix.php.rev }}-cron
