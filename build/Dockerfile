@@ -1,10 +1,14 @@
 ARG FLAVOUR
 ARG VERSION
+FROM emgag/php:${VERSION}-${FLAVOUR}
+LABEL maintainer="Matthias Blaser <mb@emgag.com>"
+
+# php version
+ARG VERSION
 ARG VERSION_MAJOR
 ARG VERSION_MINOR
 ARG VERSION_PATCH
-FROM emgag/php:${VERSION}-${FLAVOUR}
-LABEL maintainer="Matthias Blaser <mb@emgag.com>"
+ENV VERSION_MAIN "${VERSION_MAJOR}.${VERSION_MINOR}"
 
 # additional development tools
 RUN apt-get update && apt-get install -y \
