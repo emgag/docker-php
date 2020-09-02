@@ -11,10 +11,10 @@ env:
   REPO_OWNER: emgag-service
 
 jobs:
-  matrix:
+  gen:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.output.matrix }}
+      matrix: ${{ steps.genmatrix.output.matrix }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,18 +23,18 @@ jobs:
         with:
           go-version: 1.15.x
       - name: Generate build matrix
-        id: matrix
+        id: genmatrix
         run: go run bin/build-matrix.go
       - name: debug
-        run: echo ${{ steps.matrix.outputs.matrix }}
+        run: echo "${{ steps.genmatrix.outputs.matrix }}"
 
   debug:
     runs-on: ubuntu-latest
-    needs: [matrix]
+    needs: [gen]
     steps:
       - name: dump output
         env:
-          OUTPUT: ${{ needs.matrix.outputs.matrix }}
+          OUTPUT: "${{ needs.gen.outputs.matrix }}"
         run: echo "$OUTPUT"
 
 #  base:
