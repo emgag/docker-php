@@ -26,65 +26,65 @@ jobs:
         id: matrix
         run: go run bin/build-matrix.go
 
-  debug:
-    runs-on: ubuntu-latest
-    needs: [matrix]
-    steps:
-      - name: dump output
-        env:
-          OUTPUT: "${{ needs.matrix.outputs.matrix }}"
-        run: echo "$OUTPUT"
-
-#  base:
-#    strategy:
-#      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
+#  debug:
 #    runs-on: ubuntu-latest
 #    needs: [matrix]
 #    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Login to github docker registry
-#        uses: azure/docker-login@v1
-#        with:
-#          login-server: ghcr.io
-#          username: ${{ env.REPO_OWNER }}
-#          password: ${{ secrets.CR_PAT }}
-#
-#      - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }})
-#        run: >
-#          docker build --no-cache --pull \
-#          --build-arg VERSION=${{ matrix.upstream }} \
-#          --build-arg FLAVOUR=${{ matrix.flavour }} \
-#          -t ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }} \
-#          ${{ matrix.build }}
-#
-#      - name: Push ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }})
-#        run: docker push ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }}
-#
-#  cron:
-#    strategy:
-#      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
-#    runs-on: ubuntu-latest
-#    needs: [matrix, base]
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#
-#      - name: Login to github docker registry
-#        uses: azure/docker-login@v1
-#        with:
-#          login-server: ghcr.io
-#          username: ${{ env.REPO_OWNER }}
-#          password: ${{ secrets.CR_PAT }}
-#
-#      - name: Build cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
-#        run: >
-#          docker build --no-cache --pull \
-#          --build-arg VERSION=${{ matrix.upstream }} \
-#          --build-arg FLAVOUR=cli \
-#          -t ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron \
-#          base
-#
-#      - name: Push cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
-#        run: docker push ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron
+#      - name: dump output
+#        env:
+#          OUTPUT: "${{ needs.matrix.outputs.matrix }}"
+#        run: echo "$OUTPUT"
+
+  base:
+    strategy:
+      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    needs: [matrix]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.REPO_OWNER }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }})
+        run: >
+          docker build --no-cache --pull \
+          --build-arg VERSION=${{ matrix.upstream }} \
+          --build-arg FLAVOUR=${{ matrix.flavour }} \
+          -t ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }} \
+          ${{ matrix.build }}
+
+      - name: Push ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }})
+        run: docker push ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}${{ matrix.suffix }}
+
+  cron:
+    strategy:
+      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
+    runs-on: ubuntu-latest
+    needs: [matrix, base]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.REPO_OWNER }}
+          password: ${{ secrets.CR_PAT }}
+
+      - name: Build cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
+        run: >
+          docker build --no-cache --pull \
+          --build-arg VERSION=${{ matrix.upstream }} \
+          --build-arg FLAVOUR=cli \
+          -t ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron \
+          base
+
+      - name: Push cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
+        run: docker push ${{ env.IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron
