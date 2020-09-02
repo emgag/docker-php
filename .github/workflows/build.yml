@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-go@v1
         with:
           go-version: 1.15.x
-      - name: matrix
+      - name: build-matrix
         run: go run bin/build-matrix.go
 
   debug:
