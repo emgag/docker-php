@@ -8,24 +8,22 @@ on:
 env:
   IMAGE: ghcr.io/emgag/php
   REPO_OWNER: emgag-service
-  PHP_72_UPSTREAM: "7.2.33"
-  PHP_72_REV: ""
-  PHP_73_UPSTREAM: "7.3.21"
-  PHP_73_REV: ""
-  PHP_74_UPSTREAM: "7.4.9"
-  PHP_74_REV: ""
 
 jobs:
+  revs:
+    outputs:
+      php:
+        - upstream: "7.2.33"
+          rev: ""
+        - upstream: "7.3.21"
+          rev: ""
+        - upstream: "7.49.9"
+          rev: ""
+          
   base:
     strategy:
       matrix:
-        php:
-          - upstream: ${{ env.PHP_72_UPSTREAM }}
-            rev: ${{ env.PHP_72_REV }}
-          - upstream: ${{ env.PHP_73_UPSTREAM }}
-            rev: ${{ env.PHP_73_REV }}
-          - upstream: ${{ env.PHP_74_UPSTREAM }}
-            rev: ${{ env.PHP_74_REV }}
+        php: ${{ needs.revs.outputs.php }}
         flavour:
           - cli
           - fpm
@@ -36,6 +34,7 @@ jobs:
             suffix: "-build"
 
     runs-on: ubuntu-latest
+    needs: [revs]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -61,16 +60,10 @@ jobs:
   cron:
     strategy:
       matrix:
-        php:
-          - upstream: ${{ env.PHP_72_UPSTREAM }}
-            rev: ${{ env.PHP_72_REV }}
-          - upstream: ${{ env.PHP_73_UPSTREAM }}
-            rev: ${{ env.PHP_73_REV }}
-          - upstream: ${{ env.PHP_74_UPSTREAM }}
-            rev: ${{ env.PHP_74_REV }}
+        php: ${{ needs.revs.outputs.php }}
 
     runs-on: ubuntu-latest
-    needs: [base]
+    needs: [revs, base]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
