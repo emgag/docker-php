@@ -65,5 +65,4 @@ func main() {
 
 	fmt.Print("::set-output name=matrix::")
 	json.NewEncoder(os.Stdout).Encode(matrix)
-	fmt.Print("\n")
 }
