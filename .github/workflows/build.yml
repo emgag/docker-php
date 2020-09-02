@@ -19,7 +19,10 @@ jobs:
           rev: ""
         - upstream: "7.49.9"
           rev: ""
-          
+    steps:
+      - name: noop
+        run: echo "noop"
+
   base:
     strategy:
       matrix:
