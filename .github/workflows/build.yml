@@ -38,6 +38,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.GHCR_USER }}
+          password: ${{ secrets.CR_PAT }}
+
       - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }})
         run: >
           docker build --no-cache --pull
@@ -50,16 +57,10 @@ jobs:
           -t ${{ env.DOCKERHUB_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}
           base
 
-      - name: Login to github docker registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ghcr.io
-          username: ${{ env.GHCR_USER }}
-          password: ${{ secrets.CR_PAT }}
-
       - name: Push ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }})
         run: docker push ${{ env.GHCR_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}
 
+      # also push to dockerhub as for now
       - name: Login to dockerhub
         uses: azure/docker-login@v1
         with:
@@ -69,7 +70,6 @@ jobs:
       - name: Push ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }})
         run: docker push ${{ env.DOCKERHUB_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}
 
-
   build:
     strategy:
       matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
@@ -78,6 +78,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Login to github docker registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.GHCR_USER }}
+          password: ${{ secrets.CR_PAT }}
 
       - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}-build)
         run: >
@@ -91,16 +98,10 @@ jobs:
           -t ${{ env.DOCKERHUB_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}-build
           build
 
-      - name: Login to github docker registry
-        uses: azure/docker-login@v1
-        with:
-          login-server: ghcr.io
-          username: ${{ env.GHCR_USER }}
-          password: ${{ secrets.CR_PAT }}
-
       - name: Push ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}-build)
         run: docker push ${{ env.GHCR_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-${{ matrix.flavour }}-build
 
+      # also push to dockerhub as for now
       - name: Login to dockerhub
         uses: azure/docker-login@v1
         with:
@@ -120,6 +121,14 @@ jobs:
         if: ${{ matrix.flavour == 'cli' }}
         uses: actions/checkout@v2
 
+      - name: Login to github docker registry
+        if: ${{ matrix.flavour == 'cli' }}
+        uses: azure/docker-login@v1
+        with:
+          login-server: ghcr.io
+          username: ${{ env.GHCR_USER }}
+          password: ${{ secrets.CR_PAT }}
+
       - name: Build cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
         if: ${{ matrix.flavour == 'cli' }}
         run: >
@@ -130,18 +139,11 @@ jobs:
           -t ${{ env.DOCKERHUB_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron
           cron
 
-      - name: Login to github docker registry
-        if: ${{ matrix.flavour == 'cli' }}
-        uses: azure/docker-login@v1
-        with:
-          login-server: ghcr.io
-          username: ${{ env.GHCR_USER }}
-          password: ${{ secrets.CR_PAT }}
-
       - name: Push cron image (${{ matrix.upstream}}{{ matrix.revision }}-cron)
         if: ${{ matrix.flavour == 'cli' }}
         run: docker push ${{ env.GHCR_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron
 
+      # also push to dockerhub as for now
       - name: Login to dockerhub
         if: ${{ matrix.flavour == 'cli' }}
         uses: azure/docker-login@v1
