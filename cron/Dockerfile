@@ -1,5 +1,5 @@
 ARG VERSION
-FROM emgag/php:${VERSION}-cli
+FROM ghcr.io/emgag/php:${VERSION}-cli
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # install cronmutex
