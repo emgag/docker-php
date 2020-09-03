@@ -1,7 +1,14 @@
-ARG VERSION
 ARG FLAVOUR
+ARG VERSION
 FROM php:${VERSION}-${FLAVOUR}-buster
 LABEL maintainer="Matthias Blaser <mb@emgag.com>"
+
+# php version
+ARG VERSION
+ARG VERSION_MAJOR
+ARG VERSION_MINOR
+ARG VERSION_PATCH
+ENV VERSION_MAIN "${VERSION_MAJOR}.${VERSION_MINOR}"
 
 # image upgrade, install dependencies and tools
 RUN apt-get update \
@@ -33,7 +40,12 @@ COPY locale.gen /etc/locale.gen
 RUN locale-gen
 
 # php extensions
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+RUN \
+    if [ "$VERSION_MAIN" = "7.4" ]; then \
+        docker-php-ext-configure gd --with-freetype --with-jpeg; \
+    else \
+        docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
+    fi \
     && docker-php-ext-install gd \
     && docker-php-ext-install calendar \
     && docker-php-ext-install exif \
