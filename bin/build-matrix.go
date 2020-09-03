@@ -8,9 +8,9 @@ import (
 )
 
 var version = map[string]string{
-	"7.2.33": "alpha3",
-	"7.3.21": "alpha3",
-	"7.4.9":  "alpha3",
+	"7.2.33": "",
+	"7.3.21": "",
+	"7.4.9":  "",
 }
 
 func main() {
