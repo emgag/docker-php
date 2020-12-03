@@ -41,10 +41,10 @@ RUN locale-gen
 
 # php extensions
 RUN \
-    if [ "$VERSION_MAIN" = "7.4" ]; then \
-        docker-php-ext-configure gd --with-freetype --with-jpeg; \
-    else \
+    if [ "$VERSION_MAIN" = "7.3" ]; then \
         docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/; \
+    else \
+        docker-php-ext-configure gd --with-freetype --with-jpeg; \
     fi \
     && docker-php-ext-install gd \
     && docker-php-ext-install calendar \
