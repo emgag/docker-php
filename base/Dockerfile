@@ -86,4 +86,4 @@ COPY inputrc /root/.inputrc
 COPY tmux.conf /etc/tmux.conf
 
 # enable console access for www-data
-RUN usermod -u $(id -u www-data) -s /bin/bash www-data
+RUN usermod -s /bin/bash www-data
