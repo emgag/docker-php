@@ -78,7 +78,7 @@ jobs:
       - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}-build)
         run: >
           docker build --no-cache --pull
-          --build-arg VERSION=${{ matrix.upstream }}
+          --build-arg VERSION=${{ matrix.upstream }}${{ matrix.revision }}
           --build-arg VERSION_MAJOR=${{ matrix.upstream_major }}
           --build-arg VERSION_MINOR=${{ matrix.upstream_minor }}
           --build-arg VERSION_PATCH=${{ matrix.upstream_patch }}
@@ -111,7 +111,7 @@ jobs:
         if: ${{ matrix.flavour == 'cli' }}
         run: >
           docker build --no-cache --pull
-          --build-arg VERSION=${{ matrix.upstream }}
+          --build-arg VERSION=${{ matrix.upstream }}${{ matrix.revision }}
           --build-arg FLAVOUR=cli
           -t ${{ env.GHCR_IMAGE }}:${{ matrix.upstream }}${{ matrix.revision }}-cron
           cron
