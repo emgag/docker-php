@@ -42,24 +42,20 @@ RUN locale-gen
 
 # php extensions
 RUN \
-    if [ "$VERSION_MAIN" = "7.3" ]; then \
-        docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-webp-dir=/usr; \
-    else \
-        docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp; \
-    fi \
-    && docker-php-ext-install gd \
-    && docker-php-ext-install calendar \
-    && docker-php-ext-install exif \
-    && docker-php-ext-install iconv \
-    && docker-php-ext-install intl \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install pcntl \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install soap \
-    && docker-php-ext-install xsl \
-    && docker-php-ext-install zip \
+    docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install -j$(nproc) calendar \
+    && docker-php-ext-install -j$(nproc) exif \
+    && docker-php-ext-install -j$(nproc) iconv \
+    && docker-php-ext-install -j$(nproc) intl \
+    && docker-php-ext-install -j$(nproc) mbstring \
+    && docker-php-ext-install -j$(nproc) mysqli \
+    && docker-php-ext-install -j$(nproc) opcache \
+    && docker-php-ext-install -j$(nproc) pcntl \
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) soap \
+    && docker-php-ext-install -j$(nproc) xsl \
+    && docker-php-ext-install -j$(nproc) zip \
     && pecl install redis \
     && docker-php-ext-enable redis
 
