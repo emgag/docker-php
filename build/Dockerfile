@@ -1,7 +1,6 @@
 ARG FLAVOUR
 ARG VERSION
 FROM ghcr.io/emgag/php:${VERSION}-${FLAVOUR}
-LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # php version
 ARG VERSION

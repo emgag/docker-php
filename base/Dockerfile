@@ -1,7 +1,6 @@
 ARG FLAVOUR
 ARG VERSION
 FROM php:${VERSION}-${FLAVOUR}-buster
-LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # php version
 ARG VERSION

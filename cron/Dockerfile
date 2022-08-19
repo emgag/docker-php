@@ -1,6 +1,5 @@
 ARG VERSION
 FROM ghcr.io/emgag/php:${VERSION}-cli
-LABEL maintainer="Matthias Blaser <mb@emgag.com>"
 
 # https://github.com/docker/cli/blob/master/docs/reference/builder.md#automatic-platform-args-in-the-global-scope
 ARG TARGETPLATFORM
