@@ -8,7 +8,7 @@ import (
 )
 
 var version = map[string]string{
-	"7.4.32": "",
+	"7.4.33": "",
 	"8.0.25":  "",
 	"8.1.12":  "",
 }
