@@ -1,6 +1,6 @@
 ARG FLAVOUR
 ARG VERSION
-FROM php:${VERSION}-${FLAVOUR}-buster
+FROM php:${VERSION}-${FLAVOUR}-bullseye
 
 # php version
 ARG VERSION
