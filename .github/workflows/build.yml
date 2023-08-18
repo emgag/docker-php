@@ -51,8 +51,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ env.GHCR_USER }}
-          password: ${{ secrets.CR_PAT }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }})
         run: >
@@ -87,8 +87,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ env.GHCR_USER }}
-          password: ${{ secrets.CR_PAT }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build ${{ matrix.source }} image (${{ matrix.upstream}}{{ matrix.revision }}-${{ matrix.flavour }}-build)
         run: >
