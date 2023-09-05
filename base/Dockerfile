@@ -43,19 +43,19 @@ RUN locale-gen
 RUN \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) bcmath \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install -j$(nproc) calendar \
-    && docker-php-ext-install -j$(nproc) exif \
-    && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install -j$(nproc) mbstring \
-    && docker-php-ext-install -j$(nproc) mysqli \
-    && docker-php-ext-install -j$(nproc) opcache \
-    && docker-php-ext-install -j$(nproc) pcntl \
-    && docker-php-ext-install -j$(nproc) pdo_mysql \
-    && docker-php-ext-install -j$(nproc) soap \
-    && docker-php-ext-install -j$(nproc) xsl \
-    && docker-php-ext-install -j$(nproc) zip \
+      gd \
+      calendar \
+      exif \
+      iconv \
+      intl \
+      mbstring \
+      mysqli \
+      opcache \
+      pcntl \
+      pdo_mysql \
+      soap \
+      xsl \
+      zip \
     && pecl install redis \
     && docker-php-ext-enable redis
 
