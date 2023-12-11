@@ -1,6 +1,6 @@
 ARG FLAVOUR
 ARG VERSION
-FROM php:${VERSION}-${FLAVOUR}-bullseye
+FROM php:${VERSION}-${FLAVOUR}-bookworm
 
 # php version
 ARG VERSION
@@ -23,6 +23,7 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libonig-dev \
         libpng-dev \
+        libpq-dev \
         libwebp-dev \
         libxslt1-dev \
         libzip-dev \
@@ -53,6 +54,7 @@ RUN \
       opcache \
       pcntl \
       pdo_mysql \
+      pdo_pgsql \
       soap \
       xsl \
       zip \
