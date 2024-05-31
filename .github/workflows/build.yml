@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - "7.4"
     paths:
       - .github/workflows/build.yml
       - bin/build-matrix.go
