@@ -1,5 +1,0 @@
-redis:
-  uri: redis://redis-service:6379
-mutex:
-  prefix: cron.
-  defaultTTL: 60
