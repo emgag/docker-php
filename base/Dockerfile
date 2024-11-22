@@ -69,6 +69,18 @@ COPY php/php.ini /usr/local/etc/php/php.ini
 COPY php/opcache.ini /usr/local/etc/php/conf.d/zz-00-opcache.ini
 COPY php/session.ini /usr/local/etc/php/conf.d/zz-01-session.ini
 
+# ioncube extension
+ARG TARGETPLATFORM
+COPY ioncube/$TARGETPLATFORM/ioncube_loaders_lin.tar.gz /usr/local/src
+RUN \
+  cd /usr/local/src/ \
+  && tar xf ioncube_loaders_lin.tar.gz \
+  && mv /usr/local/src/ioncube/ioncube_loader_lin_${VERSION_MAJOR}.${VERSION_MINOR}.so $(ls -d1 /usr/local/lib/php/extensions/*)/ioncube_loader_lin_${VERSION_MAJOR}.${VERSION_MINOR}.so \
+  && chown root:root /usr/local/lib/php/extensions/*/ioncube_loader_lin_${VERSION_MAJOR}.${VERSION_MINOR}.so \
+  && chmod 555 /usr/local/lib/php/extensions/*/ioncube_loader_lin_${VERSION_MAJOR}.${VERSION_MINOR}.so \
+  && echo "zend_extension = ioncube_loader_lin_${VERSION_MAJOR}.${VERSION_MINOR}.so" > /usr/local/etc/php/conf.d/00-php-ext-ioncube.ini \
+  && rm -rf /usr/local/src/ioncube_loaders_lin.tar.gz /usr/local/src/ioncube
+
 # bash config
 COPY aliases.sh /etc/profile.d/aliases.sh
 COPY path.sh /etc/profile.d/path.sh
