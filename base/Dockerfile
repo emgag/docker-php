@@ -14,10 +14,12 @@ RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get install -y \
         curl \
+        ffmpeg \
         gettext-base \
         git \
         gnupg \
         iproute2 \
+        imagemagick \
         libfreetype6-dev \
         libicu-dev \
         libjpeg62-turbo-dev \
@@ -44,9 +46,9 @@ RUN locale-gen
 RUN \
     docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
     && docker-php-ext-install -j$(nproc) bcmath \
-      gd \
       calendar \
       exif \
+      gd \
       iconv \
       intl \
       mbstring \
